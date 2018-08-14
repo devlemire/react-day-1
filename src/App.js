@@ -41,6 +41,7 @@ class App extends Component {
       
       cart:[]
     }
+    this.checkout = this.checkout.bind(this);
   }
   handleAddItemToCart( item ){
     let newCart = this.state.cart.map( cartItem => {
@@ -55,6 +56,12 @@ class App extends Component {
     newCart.push(item)
     this.setState({
       cart:newCart
+    })
+  }
+  checkout(){
+    alert("Here's yer stuff")
+    this.setState({
+      cart:[]
     })
   }
   render() {
@@ -111,6 +118,7 @@ class App extends Component {
           <p>${
             this.state.cart.reduce( ( accumulator, current ) => accumulator+= current.price,0)
           }</p>
+          <button onClick={this.checkout}>Checkout</button>
         </div>
       </div>
     );
