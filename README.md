@@ -26,7 +26,7 @@ In this project we will create a react application using state management and in
 
 ### Summary
 
-In this step we are given a list of products on the state of our App component. Each product is represented by an object with an id, image url, title, price, and description property. Our App.js should have two sides: on the left we will display the list of products. On the right will be the cart. A user should have the ability to add an item from the products list to the cart by clicking a button. If an item is clicked multiple times, we can add duplicates of that item to the cart. 
+In this step we will create a class component called App. We will import product data from `products.js`, which we will store on state of this component. Each product is represented by an object with an id, image url, title, price, and description property. Our App component should have two sides: on the left we will display the list of products. On the right will be the cart. A user should have the ability to add an item from the products list to the cart by clicking a button. If an item is clicked multiple times, we can add duplicates of that item to the cart. 
 
 ### Instructions
 
@@ -93,6 +93,20 @@ Within the products section, map over the product data on state, in order to ren
                 <p>{item.description}</p>
                 <p>{item.price}</p>
                 <button>Add to Cart</button>
+            </div>
+        ))
+    }
+</section>
+```
+Now map over the cart array, and display that data within the cart component. Only display the name, description, and price. 
+```js
+<section className="cart">
+    {
+        this.state.cart.map(item=>(
+            <div>
+                <h4>{item.name}</h4>
+                <p>{item.description}</p>
+                <p>{item.price}</p>
             </div>
         ))
     }
