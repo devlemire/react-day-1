@@ -74,7 +74,7 @@ class App extends Component {
             this.state.beachGear.map( item => {
               return(
                 <div>
-                  <img src={item.imageUrl}/>
+                  <img src={item.imageUrl} alt='the item'/>
                   <h4>{item.name}</h4>
                   <p>{item.description}</p>
                   <p>{item.price}</p>
@@ -88,7 +88,7 @@ class App extends Component {
             this.state.camping.map( item => {
               return(
                 <div>
-                  <img src={item.imageUrl}/>
+                  <img src={item.imageUrl} alt='the item'/>
                   <h4>{item.name}</h4>
                   <p>{item.description}</p>
                   <p>{item.price}</p>
