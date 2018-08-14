@@ -26,7 +26,15 @@ In this project we will create a react application using state management and in
 
 ### Summary
 
-In this step we need to create a list of products on the state of our App component. Each product should be represented by an object with an image url, title, price, and description property. Our App.js should have two sides: on the left we will display the list of products. On the right will be the cart. A user should have the ability to add an item from the products list to the cart by clicking a button. If an item is clicked multiple times, we can add duplicates of that item to the cart. 
+In this step we are given a list of products on the state of our App component. Each product is represented by an object with an id, image url, title, price, and description property. Our App.js should have two sides: on the left we will display the list of products. On the right will be the cart. A user should have the ability to add an item from the products list to the cart by clicking a button. If an item is clicked multiple times, we can add duplicates of that item to the cart. 
+
+### Instructions
+
+* Open `src/App.js`.
+* create two divs in the return statement of App's render method. The first will hold the products list, the other will hold the cart list. 
+* Create an h1 for each of these divs, to label them as Products and Cart respectively. 
+* In the products div, map over the products array on state and return a div with and image, h4, and p tags to represent the data for the specific product. There should also be an Add to Cart button.
+* Write a method on the App component called `handleAddToCart`. This will take one parameter, an object, which it will add to the cart array on state. 
 
 ## Step 2
 
