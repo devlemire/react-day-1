@@ -274,8 +274,71 @@ checkout = () => {
 ```
 
 </details>
+
 ## Step 4
 
 ### Summary
 
-In this step we want to be able to delete an item from the cart. We also want to be able to toggle between a simple list view and a full card view for the products on display, using conditional rendering.
+In this step we want to count the quantity, if there are multiple copies of an item in the cart. We also want to be able to delete an item from the cart. We also want to be able to toggle between a simple list view and a full card view for the products on display, using conditional rendering.
+
+### Instructions
+
+* We also want to allow a user to add multiple copies of an item to the cart, and display a quantity, rather than duplicates of the same item. 
+* create a 'removeItemFromCart' method, that takes in a single paramter, the item id, and either reduces this item's quantity or removes it from the cart if it's quantity is 1.
+* Create a boolean value on state called `toggleCardView`, set to `true`. 
+* Create a method called `handleToggleView`, which will toggle this value on state.
+* In your maps for your products, give the outer div a different css class, e.g. `product_card` or `product_list`, depending on whether the `toggleCardView` is true or false.
+
+<details>
+<summary> Detailed Instructions </summary>
+
+In order to start keeping track of cart quantity, we need to modify our add to cart method.
+```js
+addItemToCart( item ) {
+    const newCart = this.state.cart.map( cartItem => {
+        return {
+            id: cartItem.id,
+            name: cartItem.name,
+            description: cartItem.description,
+            price: cartItem.price,
+            imageUrl: cartItem.imageUrl,
+            quantity: cartItem.quantity
+        }
+    })
+    const itemIndex = newCart.findIndex( cartItem => cartItem.id === item.id)
+    if (itemIndex !== !1){
+        newCart[itemIndex].quantity++
+    } else {
+        item.quantity = 1
+        newCart.push(item)
+    }
+    this.setState({
+        cart: newCart
+    })
+}
+```
+Now let's create a delete item method
+```js
+removeItemFromCart( id ) {
+    const newCart = this.state.cart.map( cartItem => {
+        return {
+            id: cartItem.id,
+            name: cartItem.name,
+            description: cartItem.description,
+            price: cartItem.price,
+            imageUrl: cartItem.imageUrl,
+            quantity: cartItem.quantity
+        }
+    })
+    const itemIndex = newCart.findIndex( cartItem => cartItem.id === id)
+    if(newCart[itemIndex].quantity === 1){
+        newCart.splice(itemIndex,1)
+    } else {
+        newCart[itemIndex].quantity--
+    }
+    this.setState({
+        cart: newCart
+    })
+}
+```
+</details>
