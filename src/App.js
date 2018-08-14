@@ -11,14 +11,16 @@ class App extends Component {
           name:'Flip Flops',
           description:'Some flippy floppys',
           price:5.99,
-          imageUrl:'http://via.placeholder.com/350x150'
+          imageUrl:'http://via.placeholder.com/350x150',
+          quantity:0
         },
         {
           id:2,
           name:'Tent',
           description:'TENTS',
           price:6.99,
-          imageUrl:'http://via.placeholder.com/350x150'
+          imageUrl:'http://via.placeholder.com/350x150',
+          quantity:0
         },
       ],
         camping:[
@@ -27,14 +29,16 @@ class App extends Component {
             name:'Sun tan lotion',
             description:'Gotta look fly guy',
             price:7.99,
-            imageUrl:'http://via.placeholder.com/350x150'
+            imageUrl:'http://via.placeholder.com/350x150',
+            quantity:0
           },
           {
             id:4,
             name:'Mice',
             description:'Not blind',
             price:8.99,
-            imageUrl:'http://via.placeholder.com/350x150'
+            imageUrl:'http://via.placeholder.com/350x150',
+            quantity:0
           },
 
         ],
@@ -50,20 +54,26 @@ class App extends Component {
         name:cartItem.name,
         description:cartItem.description,
         price:cartItem.price,
-        imageUrl:cartItem.imageUrl
+        imageUrl:cartItem.imageUrl,
+        quantity:cartItem.quantity
       }
     })
-    newCart.push(item)
+    let itemIndex = newCart.findIndex( cartItem => cartItem.id === item.id)
+    if( itemIndex!== -1){
+      newCart[itemIndex].quantity++
+    } else newCart.push(item)
     this.setState({
       cart:newCart
     })
   }
+  
   checkout(){
     alert("Here's yer stuff")
     this.setState({
       cart:[]
     })
   }
+  
   render() {
     return (
       <div>
@@ -107,6 +117,7 @@ class App extends Component {
                 <div>
                   <h4>{item.name}</h4>
                   <p>{item.price}</p>
+                  <p>{item.quantity}</p>
                 </div>
               )
             })
@@ -141,6 +152,7 @@ export default App;
 // - 3 including concepts from previous days: never super complex
 //     - user input validation
 //     - fake credit card payment
+//     - item displays quantity
 // - 4 black diamond - almost no direction
 //     - Delete item out of cart, update quantity, update between list and card view on product side. Idea is conditional rendering.
 // Stage 3-4 need to stay independant of other projects. These are the push yourselves levels.
