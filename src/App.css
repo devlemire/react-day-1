@@ -16,7 +16,7 @@
 .cart {
   /* display: inline-block; */
   float:right;
-  width:50%;
+  /* width:50%; */
   margin: 0;
   padding: 10px;
   border-left:1px solid black;
