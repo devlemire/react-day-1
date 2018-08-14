@@ -43,7 +43,9 @@ class App extends Component {
 
         ],
       
-      cart:[]
+      cart:[],
+      address:'',
+      creditCard:''
     }
     this.checkout = this.checkout.bind(this);
   }
@@ -61,16 +63,35 @@ class App extends Component {
     let itemIndex = newCart.findIndex( cartItem => cartItem.id === item.id)
     if( itemIndex!== -1){
       newCart[itemIndex].quantity++
-    } else newCart.push(item)
+    } else {
+      item.quantity++
+      newCart.push(item)
+    }
     this.setState({
       cart:newCart
     })
   }
   
   checkout(){
-    alert("Here's yer stuff")
+    if(!this.state.address || !this.state.creditCard){
+      alert("WHERE YOU LIVE. WHERE MY MONEY")
+    }
+    else{
+      alert("Here's yer stuff")
+      this.setState({
+        cart:[]
+      })
+    }
+    
+  }
+  handleAddressInput( address ){
     this.setState({
-      cart:[]
+      address
+    })
+  }
+  handleCreditCardInput( creditCard ){
+    this.setState({
+      creditCard
     })
   }
   
@@ -116,18 +137,22 @@ class App extends Component {
               return( 
                 <div>
                   <h4>{item.name}</h4>
-                  <p>{item.price}</p>
-                  <p>{item.quantity}</p>
+                  <p>${item.price}</p>
+                  <p>Quantity: {item.quantity}</p>
                 </div>
               )
             })
           }
 
         </div>
+        <div className='inputs'>
+          <input placeholder='address' value={this.state.address} onChange={ (e) => this.handleAddressInput(e.target.value)}/>
+          <input placeholder='credit card info' value={this.state.creditCard} onChange={ (e) => this.handleCreditCardInput(e.target.value)}/>
+        </div>
         <div className='total'>
           <h1>TOTAL</h1>
           <p>${
-            this.state.cart.reduce( ( accumulator, current ) => accumulator+= current.price,0)
+            this.state.cart.reduce( ( accumulator, current ) => accumulator+= current.price*current.quantity,0)
           }</p>
           <button onClick={this.checkout}>Checkout</button>
         </div>
