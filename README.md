@@ -26,7 +26,116 @@ In this project we will create a react application using state management and in
 
 ### Summary
 
-In this step we need to create a list of products on the state of our App component. Each product should be represented by an object with an image url, title, price, and description property. Our App.js should have two sides: on the left we will display the list of products. On the right will be the cart. A user should have the ability to add an item from the products list to the cart by clicking a button. If an item is clicked multiple times, we can add duplicates of that item to the cart. 
+In this step we will create a class component called App. We will import product data from `products.js`, which we will store on state of this component. Each product is represented by an object with an id, image url, title, price, and description property. Our App component should have two sides: on the left we will display the list of products. On the right will be the cart. A user should have the ability to add an item from the products list to the cart by clicking a button. If an item is clicked multiple times, we can add duplicates of that item to the cart. 
+
+### Instructions
+
+* Open `src/App.js`. This file will be empty. Create a class component that is the default export.
+* create two divs in the return statement of App's render method. The first will hold the products list, the other will hold the cart list. 
+* Create an h1 for each of these divs, to label them as Products and Cart respectively. 
+* In the products div, map over the products array on state and return a div with and image, h4, and p tags to represent the data for the specific product. There should also be an Add to Cart button.
+* Write a method on the App component called `handleAddToCart`. This will take one parameter, an object, which it will add to the cart array on state. 
+
+<details>
+
+<summary> Detailed Instructions </summary>
+
+<br />
+
+Let's begin by opening `src/App.js`. Create a class component called App that is the default export. 
+
+```js
+import React, { Component } from 'react';
+
+export default class App extends Component {}
+```
+
+Now we need to import the product data from `products.js`, and set it to state. 
+
+```js
+import products from './products.js'
+```
+...
+
+```js
+constructor(props) {
+    super(props);
+    this.state = {
+        products: products,
+        cart: []
+    }
+}
+```
+Create two sections within app, with an h1 in each. These are the containers for the Products and Cart.
+
+```js
+render(){
+    return(
+        <div className="App">
+            <section className="products">
+                <h1>Products</h1>
+            </section>
+            <section className="cart">
+                <h1>Cart</h1>
+            </section>
+        </div>
+    )
+}
+```
+Within the products section, map over the product data on state, in order to render the image, name, description and price into JSX. Also add an Add to Cart button.
+```js
+<section className="App">
+    {
+        this.state.products.map(item=>(
+            <div>
+                <img src={item.imageUrl}/>
+                <h4>{item.name}</h4>
+                <p>{item.description}</p>
+                <p>{item.price}</p>
+                <button>Add to Cart</button>
+            </div>
+        ))
+    }
+</section>
+```
+Now map over the cart array, and display that data within the cart component. Only display the name, description, and price. 
+```js
+<section className="cart">
+    {
+        this.state.cart.map(item=>(
+            <div>
+                <h4>{item.name}</h4>
+                <p>{item.description}</p>
+                <p>{item.price}</p>
+            </div>
+        ))
+    }
+</section>
+```
+Write a method called `addItemToCart`, that will add the item to the cart array on state. Make sure to create a deep copy of the cart array, to avoid modifying state directly. 
+```js
+addToCart(item){
+    const newCart = this.state.cart.map( cartItem => {
+        return {
+            id:          cartItem.id,
+            name:        cartItem.name,
+            description: cartItem.description,
+            price:       cartItem.price,
+            imageUrl:    cartItem.imageUrl
+        }
+    })
+    newCart.push(item)
+    this.setState({
+        cart: newCart
+    })
+}
+```
+Now use this method as the onclick for our Add to Cart button.
+```js
+<button onClick={() => this.addToCart(item)}> Add to Cart < /button>
+```
+</details>
+
 
 ## Step 2
 
