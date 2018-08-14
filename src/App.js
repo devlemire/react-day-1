@@ -49,6 +49,7 @@ class App extends Component {
     }
     this.checkout = this.checkout.bind(this);
   }
+  
   handleAddItemToCart( item ){
     let newCart = this.state.cart.map( cartItem => {
       return {
@@ -66,6 +67,29 @@ class App extends Component {
     } else {
       item.quantity++
       newCart.push(item)
+    }
+    this.setState({
+      cart:newCart
+    })
+  }
+
+  removeItemFromCart( id ){
+    let newCart = this.state.cart.map( cartItem => {
+      return {
+        id:cartItem.id,
+        name:cartItem.name,
+        description:cartItem.description,
+        price:cartItem.price,
+        imageUrl:cartItem.imageUrl,
+        quantity:cartItem.quantity
+      }
+    })
+    let itemIndex = newCart.findIndex( cartItem => cartItem.id === id)
+    if(newCart[itemIndex].quantity === 1){
+      newCart.splice(itemIndex,1)
+    }
+    else {
+      newCart[itemIndex].quantity--
     }
     this.setState({
       cart:newCart
@@ -139,6 +163,7 @@ class App extends Component {
                   <h4>{item.name}</h4>
                   <p>${item.price}</p>
                   <p>Quantity: {item.quantity}</p>
+                  <button onClick={() => this.removeItemFromCart(item.id)}>Remove from cart</button>
                 </div>
               )
             })
