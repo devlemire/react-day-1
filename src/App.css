@@ -1,7 +1,8 @@
 
 .products {
-  display: inline-block;
+  float:left;
   /* width:50%; */
+  /* width:60%; */
   margin:0;
   padding: 10px;
 }
@@ -15,7 +16,7 @@
 }
 .cart {
   /* display: inline-block; */
-  float:right;
+
   /* width:50%; */
   margin: 0;
   padding: 10px;
@@ -24,3 +25,7 @@
 /* .total {
   float:right;
 } */
+.side_bar {
+  float: right;
+  /* width:35%; */
+}

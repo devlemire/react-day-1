@@ -128,7 +128,7 @@ class App extends Component {
   
   render() {
     return (
-      <div>
+      <div >
         <div className='products'>
           <h1>PRODUCTS</h1>
           <button onClick={this.handleToggleView}>Toggle View</button>
@@ -166,32 +166,34 @@ class App extends Component {
           }
           
         </div>
-        <div className='cart'>
-          <h1>CART</h1>
-          {
-            this.state.cart.map( item => {
-              return( 
-                <div>
-                  <h4>{item.name}</h4>
-                  <p>${item.price}</p>
-                  <p>Quantity: {item.quantity}</p>
-                  <button onClick={() => this.removeItemFromCart(item.id)}>Remove from cart</button>
-                </div>
-              )
-            })
-          }
+        <div className='side_bar'>
+          <div className='cart'>
+            <h1>CART</h1>
+            {
+              this.state.cart.map( item => {
+                return( 
+                  <div>
+                    <h4>{item.name}</h4>
+                    <p>${item.price}</p>
+                    <p>Quantity: {item.quantity}</p>
+                    <button onClick={() => this.removeItemFromCart(item.id)}>Remove from cart</button>
+                  </div>
+                )
+              })
+            }
 
-        </div>
-        <div className='inputs'>
-          <input placeholder='address' value={this.state.address} onChange={ (e) => this.handleAddressInput(e.target.value)}/>
-          <input placeholder='credit card info' value={this.state.creditCard} onChange={ (e) => this.handleCreditCardInput(e.target.value)}/>
-        </div>
-        <div className='total'>
-          <h1>TOTAL</h1>
-          <p>${
-            this.state.cart.reduce( ( accumulator, current ) => accumulator+= current.price*current.quantity,0)
-          }</p>
-          <button onClick={this.checkout}>Checkout</button>
+          </div>
+          <div className='inputs'>
+            <input placeholder='address' value={this.state.address} onChange={ (e) => this.handleAddressInput(e.target.value)}/>
+            <input placeholder='credit card info' value={this.state.creditCard} onChange={ (e) => this.handleCreditCardInput(e.target.value)}/>
+          </div>
+          <div className='total'>
+            <h1>TOTAL</h1>
+            <p>${
+              this.state.cart.reduce( ( accumulator, current ) => accumulator+= current.price*current.quantity,0)
+            }</p>
+            <button onClick={this.checkout}>Checkout</button>
+          </div>
         </div>
       </div>
     );
