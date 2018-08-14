@@ -5,7 +5,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      products:[
+      beachGear:[
         {
           id:1,
           name:'Flip Flops',
@@ -20,21 +20,25 @@ class App extends Component {
           price:6.99,
           imageUrl:'http://via.placeholder.com/350x150'
         },
-        {
-          id:3,
-          name:'Sun tan lotion',
-          description:'Gotta look fly guy',
-          price:7.99,
-          imageUrl:'http://via.placeholder.com/350x150'
-        },
-        {
-          id:4,
-          name:'Mice',
-          description:'Not blind',
-          price:8.99,
-          imageUrl:'http://via.placeholder.com/350x150'
-        },
       ],
+        camping:[
+          {
+            id:3,
+            name:'Sun tan lotion',
+            description:'Gotta look fly guy',
+            price:7.99,
+            imageUrl:'http://via.placeholder.com/350x150'
+          },
+          {
+            id:4,
+            name:'Mice',
+            description:'Not blind',
+            price:8.99,
+            imageUrl:'http://via.placeholder.com/350x150'
+          },
+
+        ],
+      
       cart:[]
     }
   }
@@ -58,8 +62,23 @@ class App extends Component {
       <div>
         <div className='products'>
           <h1>PRODUCTS</h1>
+          <h2>Beach Gear</h2>
           {
-            this.state.products.map( item => {
+            this.state.beachGear.map( item => {
+              return(
+                <div>
+                  <img src={item.imageUrl}/>
+                  <h4>{item.name}</h4>
+                  <p>{item.description}</p>
+                  <p>{item.price}</p>
+                  <button onClick={() => this.handleAddItemToCart(item)}>Add to Cart</button>
+                </div>
+              )
+            })
+          }
+          <h2>Camping</h2>
+          {
+            this.state.camping.map( item => {
               return(
                 <div>
                   <img src={item.imageUrl}/>
@@ -79,15 +98,19 @@ class App extends Component {
             this.state.cart.map( item => {
               return( 
                 <div>
-                  <img src={item.imageUrl}/>
                   <h4>{item.name}</h4>
-                  <p>{item.description}</p>
                   <p>{item.price}</p>
-                  <button onClick={() => this.handleAddItemToCart(item)}>Add to Cart</button>
                 </div>
               )
             })
           }
+
+        </div>
+        <div className='total'>
+          <h1>TOTAL</h1>
+          <p>${
+            this.state.cart.reduce( ( accumulator, current ) => accumulator+= current.price,0)
+          }</p>
         </div>
       </div>
     );
