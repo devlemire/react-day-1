@@ -5,6 +5,14 @@
   margin:0;
   padding: 10px;
 }
+.product_list {
+  /* display: inline;e */
+}
+.product_card {
+  display: flex;
+  border: 1px solid black;
+  margin:5px;
+}
 .cart {
   /* display: inline-block; */
   float:right;

@@ -11,7 +11,7 @@ class App extends Component {
           name:'Flip Flops',
           description:'Some flippy floppys',
           price:5.99,
-          imageUrl:'http://via.placeholder.com/350x150',
+          imageUrl:'http://via.placeholder.com/350x100',
           quantity:0
         },
         {
@@ -19,7 +19,7 @@ class App extends Component {
           name:'Tent',
           description:'TENTS',
           price:6.99,
-          imageUrl:'http://via.placeholder.com/350x150',
+          imageUrl:'http://via.placeholder.com/350x100',
           quantity:0
         },
       ],
@@ -29,7 +29,7 @@ class App extends Component {
             name:'Sun tan lotion',
             description:'Gotta look fly guy',
             price:7.99,
-            imageUrl:'http://via.placeholder.com/350x150',
+            imageUrl:'http://via.placeholder.com/350x100',
             quantity:0
           },
           {
@@ -37,7 +37,7 @@ class App extends Component {
             name:'Mice',
             description:'Not blind',
             price:8.99,
-            imageUrl:'http://via.placeholder.com/350x150',
+            imageUrl:'http://via.placeholder.com/350x100',
             quantity:0
           },
 
@@ -45,9 +45,11 @@ class App extends Component {
       
       cart:[],
       address:'',
-      creditCard:''
+      creditCard:'',
+      toggleCardView:false
     }
     this.checkout = this.checkout.bind(this);
+    this.handleToggleView = this.handleToggleView.bind(this);
   }
   
   handleAddItemToCart( item ){
@@ -118,21 +120,29 @@ class App extends Component {
       creditCard
     })
   }
+  handleToggleView(){
+    this.setState({
+      toggleCardView:!this.state.toggleCardView
+    })
+  }
   
   render() {
     return (
       <div>
         <div className='products'>
           <h1>PRODUCTS</h1>
+          <button onClick={this.handleToggleView}>Toggle View</button>
           <h2>Beach Gear</h2>
           {
             this.state.beachGear.map( item => {
               return(
-                <div>
+                <div className={this.state.toggleCardView ? 'product_card' : 'product_list'}>
                   <img src={item.imageUrl} alt='the item'/>
-                  <h4>{item.name}</h4>
-                  <p>{item.description}</p>
-                  <p>{item.price}</p>
+                  <div>
+                    <h4>{item.name}</h4>
+                    <p>{item.description}</p>
+                    <p>{item.price}</p>
+                  </div>
                   <button onClick={() => this.handleAddItemToCart(item)}>Add to Cart</button>
                 </div>
               )
@@ -142,11 +152,13 @@ class App extends Component {
           {
             this.state.camping.map( item => {
               return(
-                <div>
+                <div className={this.state.toggleCardView ? 'product_card': 'product_list'}>
                   <img src={item.imageUrl} alt='the item'/>
-                  <h4>{item.name}</h4>
-                  <p>{item.description}</p>
-                  <p>{item.price}</p>
+                  <div>
+                    <h4>{item.name}</h4>
+                    <p>{item.description}</p>
+                    <p>{item.price}</p>
+                  </div>
                   <button onClick={() => this.handleAddItemToCart(item)}>Add to Cart</button>
                 </div>
               )
