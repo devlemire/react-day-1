@@ -57,6 +57,7 @@ class App extends Component {
     return (
       <div>
         <div className='products'>
+          <h1>PRODUCTS</h1>
           {
             this.state.products.map( item => {
               return(
@@ -73,6 +74,7 @@ class App extends Component {
           
         </div>
         <div className='cart'>
+          <h1>CART</h1>
           {
             this.state.cart.map( item => {
               return( 
