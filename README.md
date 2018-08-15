@@ -2,12 +2,19 @@
 
 # Project Summary
 
-In this project we will create a react application using state management and input validation. We will render our app based on data stored on state. We will be using event listeners to manipulate state and change the displayed data, by adding items to a cart list.
+In this project we will create a e-commerce React application from an start to finish. We will be provided with the basic file structure from create-react-app, but the App.js file is empty. We will be working on this app over the course of three days. Each day's project is divided into four Steps, with the first step being comparable to that day's mini-project and the following steps adding more features or implementing new patterns. You should expect to be able to complete the first two steps on each day, while steps three and four will offer a challenge for 
 
-- Components
-- State
-- .gitignore
-- NPM install
+
+# Day 1
+
+On this day we will start building our React app. We will create a class component with state in the App.js file. We will practice rendering lists of data from state by looping over them and returning JSX code. At the end of this project you should have a better understanding of the following concepts.
+
+* Components
+* State
+* Conditional Rendering
+* Array.map
+* JSX
+
 
 # Live Example
 
@@ -26,15 +33,18 @@ In this project we will create a react application using state management and in
 
 ### Summary
 
-In this step we will create a class component called App. We will import product data from `products.js`, which we will store on state of this component. Each product is represented by an object with an id, image url, title, price, and description property. Our App component should have two sides: on the left we will display the list of products. On the right will be the cart. A user should have the ability to add an item from the products list to the cart by clicking a button. If an item is clicked multiple times, we can add duplicates of that item to the cart.
+In this step we will create a class component called App, with state. State should have one property, an array of products. You will need to fill this array with a list of products. Each product is represented by an object with the following properties: id (number), imageUrl (string), title (string), price (number), and description (string). The display of our App component should have a left and right side; on the left we will display the list of products. On the right will be the cart, where users can add see the items that they are going to purchase. A user should have the ability to add an item from the products list to the cart by clicking a button. If an item is clicked multiple times, simply add duplicates of that item to the cart. We will implement a quantity counter later on.
 
 ### Instructions
 
 - Open `src/App.js`. This file will be empty. Create a class component that is the default export.
-- create two divs in the return statement of App's render method. The first will hold the products list, the other will hold the cart list.
+* Create an array on state called products and populate it with a few product objects. Each product is represented by an object with the following properties: id (number), imageUrl (string), title (string), price (number), and description (string).
+* Create an empty array on state called cart.
+- Create two sections in the return statement of App's render method. The first will hold the products list, the other will hold the cart list.
 - Create an h1 for each of these divs, to label them as Products and Cart respectively.
-- In the products div, map over the products array on state and return a div with and image, h4, and p tags to represent the data for the specific product. There should also be an Add to Cart button.
-- Write a method on the App component called `handleAddToCart`. This will take one parameter, an object, which it will add to the cart array on state.
+- In the products section, map over the products array on state and return a div container with an image, h4, and p tags to represent the data for the specific product. Don't forget to give your outer div a key attribute. There should also be an Add to Cart button, but don't worry about hooking up an onclick function yet.
+* In the cart section, map over the cart array and render the product name and price.
+- Write a method on the App component called `handleAddToCart`. This will take one parameter, an object, which it will add to the cart array on state. Now we can attach this method to the onClick event listener on the Add to Cart button, and pass in the product object.
 
 <details>
 
@@ -50,25 +60,26 @@ import React, { Component } from "react";
 export default class App extends Component {}
 ```
 
-Now we need to import the product data from `products.js`, and set it to state.
-
-```js
-import products from "./products.js";
-```
-
-...
+Now create a constructor, call super, and create our component state. State needs to have a products array, which we will fill with made up products. These need to have an id, imageUrl, title, price, and description.
 
 ```js
 constructor(props) {
     super(props);
     this.state = {
-        products: products,
+        products: [{
+            id: 1,
+            imageUrl: '',
+            title: 'fancy hat',
+            price: 12.99,
+            description: 'has a feather in it.'
+        } // ... add a few more
+        ],
         cart: []
     }
 }
 ```
 
-Create two sections within app, with an h1 in each. These are the containers for the Products and Cart.
+Now we create two sections within App's render method; one for products and one for cart.
 
 ```js
 render(){
@@ -101,7 +112,7 @@ Within the products section, map over the product data on state, in order to ren
 </section>
 ```
 
-Now map over the cart array, and display that data within the cart component. Only display the name, description, and price.
+Now map over the cart array, to display the name, price, and description within the cart component. Only display the name, description, and price.
 
 ```js
 <section className="cart">
@@ -119,23 +130,15 @@ Write a method called `addItemToCart`, that will add the item to the cart array 
 
 ```js
 addToCart(item){
-    const newCart = this.state.cart.map( cartItem => {
-        return {
-            id:          cartItem.id,
-            name:        cartItem.name,
-            description: cartItem.description,
-            price:       cartItem.price,
-            imageUrl:    cartItem.imageUrl
-        }
-    })
+    const newCart = this.state.cart.map( cartItem => Object.assign({}, cartItem) )
     newCart.push(item)
     this.setState({
-        cart: newCart
+        cart: newCart 
     })
 }
 ```
 
-Now use this method as the onclick for our Add to Cart button.
+Now use this method as the onclick for our Add to Cart button. Be sure to pass in the product object.
 
 ```js
 <button onClick={() => this.addToCart(item)}> Add to Cart </button>
@@ -156,6 +159,7 @@ In this step we will display the total price from the cart. In step 1, we were g
 - This container should also include the Checkout Button, which should call the checkout method, to clear out the cart and call an alert to let the user know that their purchase has been completed.
 * create your own data on state, sorted into category arrays.
 * You should follow the same object structure as we had in step 1, with each product that you create having a unique id, name, description, price, and imageUrl.
+
 <details>
 <summary> Detailed Instructions </summary>
 
@@ -242,10 +246,43 @@ Once we have created these product category arrays, we will display them in sect
 
 ### Summary
 
-In this step we will add two text input fields on the cart side of our app. These will take in an mailing address and email address from the user. We want to verify that these fields have been filled out and are not empty when the user clicks on 'checkout'. If the user attempts to checkout without filling out both of these fields, display an inline error (which will be conditionally rendered), E.g. some red text that says: 'You must fill out all required fields'.
+In this step we will add two text input fields on the cart side of our app. These will take in an mailing address and a credit-card number from the user. We want to verify that these fields have been filled out and are not empty when the user clicks on 'checkout'. If the user attempts to checkout without filling out both of these fields, call an alert which will inform them of the error.
+
+### Instructions
+
+* At the bottom of our App component but before the total container, create a div that will be the inputs container. 
+* Add an input for address and one for credit card. These should be able to store their values on state.
+
+<details><summary>Detailed Instructions</summary>
+
+Add an inputs container, which will allow the user to enter an address and credit card number.
+These input fields should store their value on state, using an onChange event listener. 
+```js
+<div className="inputs">
+    <input placeholder="address" value={this.state.address} onChange={ this.handleAddressInput } />
+    <input placeholder="credit card number" value={this.state.creditCard} onChange={this.handleCreditCardInput} />
+</div>
+```
+Now we want to make sure that the user has entered in the required data when they attempt to check out. So we will edit the checkout method to check for this data.
+```js
+checkout = () => {
+    if(!this.state.address || !this.state.creditCard) {
+        alert( "Please fill out the required fields" )
+    } else {
+        alert( "Purchase complete!" )
+        this.setState({
+            cart: []
+        })
+    }
+}
+```
+
+</details>
 
 ## Step 4
 
 ### Summary
 
-In this step we want to be able to delete an item from the cart. We also want to be able to toggle between a simple list view and a full card view for the products on display, using conditional rendering.
+In this step we want to count the quantity, if there are multiple copies of an item in the cart. We also want to be able to delete an item from the cart. We also want to be able to toggle between a simple list view and a full card view for the products on display, using conditional rendering.
+
+### Instructions
