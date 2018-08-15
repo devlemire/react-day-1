@@ -150,42 +150,20 @@ Now use this method as the onclick for our Add to Cart button. Be sure to pass i
 
 ### Summary
 
-In this step we will display the total price from the cart. In step 1, we were given the dataset for the products. Now we will create our own products and organize them into categories. E.g. `this.state = { shoes: [...], shirts: [...], hats: [...] }`, where each item on state is an array of product objects. Then display the products on the left side sorted into categories with a header for the type of product. We also want to have a checkout button on the cart side. This should clear out the cart and display an alert to inform the user that their purchase has been completed.
+In this step we will calculate and display the total price from the cart. We will reorganize the products into categories, and store them in seperate arrays on state. E.g. `this.state = { shoes: [...], shirts: [...], hats: [...] }`, where each item on state is an array of product objects. Then display the products sorted into categories with a header for the type of product. We also want to have a checkout button on the cart side. This should clear out the cart and display an alert to inform the user that their purchase has been completed.
 
 ### Instructions
 
-- Create a container to display the Total amount, at the bottom of the App component
-- This container can be a div with an 'h1' inside it and a 'p' tag
+* Change the structure of state, so that instead of a products array, there are seperate arrays for different product categories (which you can make up), e.g. shoes, shirts, pants.
+* Now map over these arrays within the products section, and create a header for each category.
+- Create a container to display the Total amount, at the bottom of the App component; this container can be a div with an 'h1' inside it and a 'p' tag
 - This container should also include the Checkout Button, which should call the checkout method, to clear out the cart and call an alert to let the user know that their purchase has been completed.
-* create your own data on state, sorted into category arrays.
-* You should follow the same object structure as we had in step 1, with each product that you create having a unique id, name, description, price, and imageUrl.
 
 <details>
 <summary> Detailed Instructions </summary>
 
-Here we will create the Total container. Use the Array.reduce method to sum up the total cost.
-
-```js
-<div className="total">
-    <h1>TOTAL</h1>
-    <p>${
-        this.state.cart.reduce((accumulator, current) => (accumulator += current.price), 0)
-        }
-    </p>
-    <button onClick={this.checkout}>Checkout</button>
-</div>
-```
-checkout method on App component
-```js
-checkout = () => {
-    this.setState({
-        cart: []
-    });
-    alert('Purchase is complete!');
-}
-```
-
 Here we will create our own categories of products on state
+
 ```js
 this.state = {
     cart: [],
@@ -217,6 +195,7 @@ this.state = {
 }
 ```
 Once we have created these product category arrays, we will display them in sections for each category. 
+
 ```js
 <div className="products">
     <h1>PRODUCTS</h1>
@@ -240,6 +219,28 @@ Once we have created these product category arrays, we will display them in sect
     }
 </div>
 ```
+Here we will create the Total container. Use the Array.reduce method to sum up the total cost.
+
+```js
+<div className="total">
+    <h1>TOTAL</h1>
+    <p>${
+        this.state.cart.reduce((accumulator, current) => (accumulator += current.price), 0)
+        }
+    </p>
+    <button onClick={this.checkout}>Checkout</button>
+</div>
+```
+checkout method on App component
+```js
+checkout = () => {
+    this.setState({
+        cart: []
+    });
+    alert('Purchase is complete!');
+}
+```
+
 </details>
 
 ## Step 3
