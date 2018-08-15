@@ -247,17 +247,18 @@ checkout = () => {
 
 ### Summary
 
-In this step we will add two text input fields on the cart side of our app. These will take in an mailing address and a credit-card number from the user. We want to verify that these fields have been filled out and are not empty when the user clicks on 'checkout'. If the user attempts to checkout without filling out both of these fields, call an alert which will inform them of the error.
+In this step we will add two text input fields on the cart side of our app. These will take in an mailing address and a credit-card number from the user. We want to verify that these fields have been filled out and are not empty when the user goes to checkout. If the user attempts to checkout without filling out both of these fields, call an alert which will inform them of the error.
 
 ### Instructions
 
-* At the bottom of our App component but before the total container, create a div that will be the inputs container. 
+* At the bottom of our cart section but before the total container, create a div that will be the inputs container. 
 * Add an input for address and one for credit card. These should be able to store their values on state.
 
 <details><summary>Detailed Instructions</summary>
 
 Add an inputs container, which will allow the user to enter an address and credit card number.
 These input fields should store their value on state, using an onChange event listener. 
+
 ```js
 <div className="inputs">
     <input placeholder="address" value={this.state.address} onChange={ this.handleAddressInput } />
@@ -265,6 +266,7 @@ These input fields should store their value on state, using an onChange event li
 </div>
 ```
 Now we want to make sure that the user has entered in the required data when they attempt to check out. So we will edit the checkout method to check for this data.
+
 ```js
 checkout = () => {
     if(!this.state.address || !this.state.creditCard) {
@@ -284,6 +286,76 @@ checkout = () => {
 
 ### Summary
 
-In this step we want to count the quantity, if there are multiple copies of an item in the cart. We also want to be able to delete an item from the cart. We also want to be able to toggle between a simple list view and a full card view for the products on display, using conditional rendering.
+In this step we want to keep track of quantity if there are multiple copies of an item in the cart. We also want to be able to delete an item from the cart. We also want to be able to toggle between a simple list view and a full card view for the products on display, using conditional rendering.
 
 ### Instructions
+
+* In order to keep track of quantity, modify the addItemToCart method. When adding to the cart, it should check if the item is already on the cart, and if so, increase that object's quantity value by one.
+* Create a deleteFromCart method. This should take in one parameter, an id, which it will use to remove the matching item from the cart array.
+* Create a button at the top of the products section, and a method for it called handleToggleView. Create a boolean value on state called toggleView. The handleToggleView method should set the toggleView value on state to its opposite value. We will use this boolean to conditionally render our products. Based on the value of toggleView, we want to switch between a detailed card view and a simple list. You can do this either by writing more JSX, or simply writing two different sets of CSS and toggling classes. 
+
+<details><summary> Detailed Instructions </summary>
+
+Modify the addItemToCart method, so that it can keep track of quantity if their are multiple instances of an item in the cart.
+
+```js
+addItemToCart( item ){
+    // make a deep copy of the cart array, to avoid mutating state.
+    let newCart = this.state.cart.map( cartItem => Object.assign({}, cartItem) )
+    let itemIndex = newCart.findIndex( cartItem => cartItem.id === item.id)
+    if( itemIndex!== -1){
+      newCart[itemIndex].quantity++
+    } else {
+      item.quantity++
+      newCart.push(item)
+    }
+    this.setState({
+      cart:newCart
+    })
+  }
+```
+
+Create a deleteFromCart method that takes an id parameter and removes the matching item from the cart array.
+
+```js
+removeItemFromCart( id ){
+    let newCart = this.state.cart.map( cartItem => Object.assign({}, cartItem) )
+    let itemIndex = newCart.findIndex( cartItem => cartItem.id === id)
+    if(newCart[itemIndex].quantity === 1){
+      newCart.splice(itemIndex,1)
+    }
+    else {
+      newCart[itemIndex].quantity--
+    }
+    this.setState({
+      cart:newCart
+    })
+  }
+```
+
+Create a Toggle View button at the top of the products section, and create a handleToggleView method which will toggle a toggleView boolean on state.
+
+```js
+this.state = {
+    toggleView: true,
+    // ...
+}
+```
+
+```js
+<button onClick={ this.handleToggleView }>Toggle View</button>
+```
+
+```js
+handleToggleView = () => this.setState(state => { toggleView: !state.toggleView })
+```
+
+Here we will toggle the class of our product elements, to render them either in more detailed card view or list view.
+
+```js
+<div className={ this.state.toggleView ? 'product_card' : 'product_list' }>
+    // ...
+</div>
+```
+
+</details>
