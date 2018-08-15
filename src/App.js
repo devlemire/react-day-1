@@ -11,7 +11,7 @@ class App extends Component {
           name:'Flip Flops',
           description:'Some flippy floppys',
           price:5.99,
-          imageUrl:'http://via.placeholder.com/350x150'
+          imageUrl:'https://cdn.bulbagarden.net/upload/thumb/1/17/202Wobbuffet.png/250px-202Wobbuffet.png'
         },
         {
           id:2,
