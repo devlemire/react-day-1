@@ -2,12 +2,19 @@
 
 # Project Summary
 
-In this project we will create a react application using state management and input validation. We will render our app based on data stored on state. We will be using event listeners to manipulate state and change the displayed data, by adding items to a cart list.
+In this project we will create a React application from an start to finish. We will be provided with the basic file structure from create-react-app, but the App.js file is empty. We will be working on this app over the course of three days. Each day's project is divided into four Steps, with the first step being comparable to that day's mini-project and the following steps adding more features or implementing new patterns. You should expect to be able to complete the first two steps on each day, while steps three and four will offer a challenge for 
+
+
+# Day 1
+
+On this day we will start building our React app. We will create a class component with state in the App.js file. We will practice rendering lists of data from state by looping over them and returning JSX code. At the end of this project you should have a better understanding of the following concepts.
 
 - Components
 - State
-- .gitignore
-- NPM install
+* Conditional Rendering
+* Array.map
+* JSX
+
 
 # Live Example
 
