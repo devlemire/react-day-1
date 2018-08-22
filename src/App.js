@@ -1,207 +1,233 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      beachGear:[
+      addressInput: "",
+      ccInput: "",
+      cart: [],
+      cardView: true,
+      beachGear: [
         {
-          id:1,
-          name:'Flip Flops',
-          description:'Some flippy floppys',
-          price:5.99,
-          imageUrl:'http://via.placeholder.com/350x100',
-          quantity:0
+          id: 1,
+          name: "Flip Flops",
+          description: "Some flippy floppys",
+          price: 5.99,
+          quantity: 0,
+          imageUrl:
+            "https://i.pinimg.com/736x/86/51/8c/86518c2adfb760bf5e9091841ab6fc9c--girls-flip-flops-beach-flip-flops.jpg"
         },
         {
-          id:2,
-          name:'Tent',
-          description:'TENTS',
-          price:6.99,
-          imageUrl:'http://via.placeholder.com/350x100',
-          quantity:0
-        },
+          id: 3,
+          name: "Sun tan lotion",
+          description: "Gotta look fly guy",
+          price: 7.99,
+          quantity: 0,
+          imageUrl:
+            "https://images.all-free-download.com/images/graphicthumb/summer_cream_protect_lotion_design_vector_582414.jpg"
+        }
       ],
-        camping:[
-          {
-            id:3,
-            name:'Sun tan lotion',
-            description:'Gotta look fly guy',
-            price:7.99,
-            imageUrl:'http://via.placeholder.com/350x100',
-            quantity:0
-          },
-          {
-            id:4,
-            name:'Mice',
-            description:'Not blind',
-            price:8.99,
-            imageUrl:'http://via.placeholder.com/350x100',
-            quantity:0
-          },
-
-        ],
-      
-      cart:[],
-      address:'',
-      creditCard:'',
-      toggleCardView:false
-    }
+      camping: [
+        {
+          id: 2,
+          name: "Tent",
+          description: "TENTS",
+          price: 6.99,
+          quantity: 0,
+          imageUrl:
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhEXFLblyNPD1fknwWEaJ-sc_t6o0NANN1ZHltRn6CuEbJUTT0aQ"
+        },
+        {
+          id: 4,
+          name: "Mice",
+          description: "Not blind",
+          price: 8.99,
+          quantity: 0,
+          imageUrl:
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Assorted_computer_mice_-_MfK_Bern.jpg/220px-Assorted_computer_mice_-_MfK_Bern.jpg"
+        }
+      ]
+    };
     this.checkout = this.checkout.bind(this);
-    this.handleToggleView = this.handleToggleView.bind(this);
   }
-  
-  handleAddItemToCart( item ){
-    let newCart = this.state.cart.map( cartItem => {
-      return {
-        id:cartItem.id,
-        name:cartItem.name,
-        description:cartItem.description,
-        price:cartItem.price,
-        imageUrl:cartItem.imageUrl,
-        quantity:cartItem.quantity
-      }
-    })
-    let itemIndex = newCart.findIndex( cartItem => cartItem.id === item.id)
-    if( itemIndex!== -1){
-      newCart[itemIndex].quantity++
+  toggleView = () => this.setState({ cardView: !this.state.cardView });
+  handleAddressInput = event => this.setState({ addressInput: event.target.value });
+  handleCCInput = event => this.setState({ ccInput: event.target.value });
+  deleteFromCart = id => {
+    const { cart } = this.state;
+    let newCart = cart.map(cartItem => Object.assign({}, cartItem));
+    let itemIndex = newCart.findIndex(cartItem => cartItem.id === id);
+    console.log("index: ", newCart);
+    if (newCart[itemIndex].quantity > 1) {
+      newCart[itemIndex].quantity--;
     } else {
-      item.quantity++
-      newCart.push(item)
+      newCart.splice(itemIndex, 1);
+    }
+    this.setState({ cart: newCart });
+  };
+  handleAddItemToCart(item) {
+    const { cart } = this.state;
+    let newCart = cart.map(cartItem => Object.assign({}, cartItem));
+    let match = newCart.find(cartItem => cartItem.id === item.id);
+    if (match) {
+      // item exists on cart
+      match.quantity++;
+    } else {
+      item.quantity++;
+      newCart.push(item);
     }
     this.setState({
-      cart:newCart
-    })
+      cart: newCart
+    });
   }
-
-  removeItemFromCart( id ){
-    let newCart = this.state.cart.map( cartItem => {
-      return {
-        id:cartItem.id,
-        name:cartItem.name,
-        description:cartItem.description,
-        price:cartItem.price,
-        imageUrl:cartItem.imageUrl,
-        quantity:cartItem.quantity
-      }
-    })
-    let itemIndex = newCart.findIndex( cartItem => cartItem.id === id)
-    if(newCart[itemIndex].quantity === 1){
-      newCart.splice(itemIndex,1)
-    }
-    else {
-      newCart[itemIndex].quantity--
-    }
-    this.setState({
-      cart:newCart
-    })
-  }
-  
-  checkout(){
-    if(!this.state.address || !this.state.creditCard){
-      alert("WHERE YOU LIVE. WHERE MY MONEY")
-    }
-    else{
-      alert("Here's yer stuff")
+  checkout() {
+    if (!this.state.addressInput || !this.state.ccInput) {
+      alert("Fill out required fields first.");
+    } else if (this.state.cart.length === 0) {
+      alert("cart is empty.");
+    } else {
+      alert("Here's yer stuff");
       this.setState({
-        cart:[]
-      })
+        cart: [],
+        addressInput: "",
+        ccInput: ""
+      });
     }
-    
   }
-  handleAddressInput( address ){
-    this.setState({
-      address
-    })
-  }
-  handleCreditCardInput( creditCard ){
-    this.setState({
-      creditCard
-    })
-  }
-  handleToggleView(){
-    this.setState({
-      toggleCardView:!this.state.toggleCardView
-    })
-  }
-  
   render() {
     return (
-      <div >
-        <div className='products'>
-          <h1>PRODUCTS</h1>
-          <button onClick={this.handleToggleView}>Toggle View</button>
-          <h2>Beach Gear</h2>
-          {
-            this.state.beachGear.map( item => {
-              return(
-                <div className={this.state.toggleCardView ? 'product_card' : 'product_list'}>
-                  <img src={item.imageUrl} alt='the item'/>
-                  <div>
-                    <h4>{item.name}</h4>
-                    <p>{item.description}</p>
-                    <p>{item.price}</p>
-                  </div>
-                  <button onClick={() => this.handleAddItemToCart(item)}>Add to Cart</button>
-                </div>
-              )
-            })
-          }
-          <h2>Camping</h2>
-          {
-            this.state.camping.map( item => {
-              return(
-                <div className={this.state.toggleCardView ? 'product_card': 'product_list'}>
-                  <img src={item.imageUrl} alt='the item'/>
-                  <div>
-                    <h4>{item.name}</h4>
-                    <p>{item.description}</p>
-                    <p>{item.price}</p>
-                  </div>
-                  <button onClick={() => this.handleAddItemToCart(item)}>Add to Cart</button>
-                </div>
-              )
-            })
-          }
-          
-        </div>
-        <div className='side_bar'>
-          <div className='cart'>
+      <div>
+        <section className="products">
+          <div className="products_header">
+            <h1>PRODUCTS</h1>
+            <button onClick={this.toggleView}>toggle view</button>
+          </div>
+          <table className="products_body">
+            <thead>
+              <th colspan="2">
+                <h2>Beach Gear</h2>
+              </th>
+            </thead>
+            {this.state.beachGear.map(item => {
+              if (this.state.cardView)
+                return (
+                  <tr className="product_container clearfix">
+                    <td>
+                      <img className="product_img" src={item.imageUrl} />
+                    </td>
+                    <td>
+                      <h4>{item.name}</h4>
+                      <p>{item.description}</p>
+                      <p>{item.price}</p>
+                      </td><td>
+                      <button onClick={() => this.handleAddItemToCart(item)}>Add to Cart</button>
+                    </td>
+                  </tr>
+                );
+              else
+                return (
+                  <tr className="product_container clearfix">
+                    <td>
+                      <h4>{item.name}</h4>
+                    </td>
+                    <td>{item.description}</td>
+                    <td>{item.price}</td>
+                    <td><button onClick={() => this.handleAddItemToCart(item)}>Add to Cart</button></td>
+                  </tr>
+                );
+            })}
+            <thead><th colspan="2">
+            <h2>Camping</h2></th>
+            </thead>
+            {this.state.camping.map(item => {
+              if (this.state.cardView)
+                return (
+                  <tr className="products_container clearfix">
+                    <td>
+                      <img className="product_img" src={item.imageUrl} />
+                    </td>
+                    <td>
+                      <h4>{item.name}</h4>
+                      <p>{item.description}</p>
+                      <p>{item.price}</p></td><td>
+                      <button onClick={() => this.handleAddItemToCart(item)}>Add to Cart</button>
+                    </td>
+                  </tr>
+                );
+              else
+                return (
+                  <tr className="product_container clearfix">
+                    <td>
+                      <h4>{item.name}</h4>
+                    </td>
+                    <td>{item.description}</td>
+                    <td>{item.price}</td>
+                    <td><button onClick={() => this.handleAddItemToCart(item)}>Add to Cart</button></td>
+                  </tr>
+                );
+            })}
+          </table>
+        </section>
+        <section className="cart">
+          <div className="cart_header">
             <h1>CART</h1>
-            {
-              this.state.cart.map( item => {
-                return( 
-                  <div>
+            <div className="total">
+              <table>
+                <tr>
+                  <td>
+                    <label>address</label>
+                  </td>
+                  <td>
+                    <input type="text" value={this.state.addressInput} onChange={this.handleAddressInput} />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>credit card number</label>
+                  </td>
+                  <td>
+                    <input type="text" value={this.state.ccInput} onChange={this.handleCCInput} />
+                  </td>
+                </tr>
+              </table>
+              <h4>TOTAL</h4>
+              <p>
+                $
+                {this.state.cart
+                  .reduce((accumulator, current) => (accumulator += current.price * current.quantity), 0)
+                  .toFixed(2)}
+              </p>
+              <button onClick={this.checkout}>Checkout</button>
+            </div>
+          </div>
+          <table className="cart_body">
+            {this.state.cart.map(item => {
+              return (
+                <tr className="products_container clearfix">
+                  <td>
+                    <img className="product_img" src={item.imageUrl} />
+                  </td>
+                  <td>
                     <h4>{item.name}</h4>
-                    <p>${item.price}</p>
-                    <p>Quantity: {item.quantity}</p>
-                    <button onClick={() => this.removeItemFromCart(item.id)}>Remove from cart</button>
-                  </div>
-                )
-              })
-            }
-
-          </div>
-          <div className='inputs'>
-            <input placeholder='address' value={this.state.address} onChange={ (e) => this.handleAddressInput(e.target.value)}/>
-            <input placeholder='credit card info' value={this.state.creditCard} onChange={ (e) => this.handleCreditCardInput(e.target.value)}/>
-          </div>
-          <div className='total'>
-            <h1>TOTAL</h1>
-            <p>${
-              this.state.cart.reduce( ( accumulator, current ) => accumulator+= current.price*current.quantity,0)
-            }</p>
-            <button onClick={this.checkout}>Checkout</button>
-          </div>
-        </div>
+                    <span>{(item.price * item.quantity).toFixed(2)}</span> <span> | qty: </span>
+                    <span>{item.quantity}</span>
+                    <br />
+                    <button onClick={_ => this.deleteFromCart(item.id)}>remove item</button>
+                  </td>
+                  <td />
+                </tr>
+              );
+            })}
+          </table>
+        </section>
       </div>
     );
   }
 }
 
 export default App;
-
 
 // 1 - single screen, sidebar, left side is a list of products.
 // 2 - add in props - list component, list item component, clean it up
@@ -216,7 +242,6 @@ export default App;
 // - 3 including concepts from previous days: never super complex
 //     - user input validation
 //     - fake credit card payment
-//     - item displays quantity
 // - 4 black diamond - almost no direction
 //     - Delete item out of cart, update quantity, update between list and card view on product side. Idea is conditional rendering.
 // Stage 3-4 need to stay independant of other projects. These are the push yourselves levels.
