@@ -60,15 +60,16 @@ p, h1, h2, h4 {
 .clearfix {
   overflow: auto;
 }
-table {
+table.products_body, table.cart_body {
   border-spacing: 0 20px;
 }
 .total {
-  padding: 0 20px;
+  padding: 0;
   background: var(--dark);
   float: right;
   font-size: .8rem;
   margin-top: -8px;
+  text-align: right;
 }
 
 .products_body h2 {
