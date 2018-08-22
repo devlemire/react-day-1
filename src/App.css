@@ -93,6 +93,7 @@ section {
 }
 td{
   min-width: 80px;
+  vertical-align: top;
 }
 th {
   text-align: left;
