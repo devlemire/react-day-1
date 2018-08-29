@@ -2,8 +2,7 @@
 
 # Project Summary
 
-In this project we will create a e-commerce React application from an start to finish. We will be provided with the basic file structure from create-react-app, but the App.js file is empty. We will be working on this app over the course of three days. Each day's project is divided into four Steps, with the first step being comparable to that day's mini-project and the following steps adding more features or implementing new patterns. You should expect to be able to complete the first two steps on each day, while steps three and four will offer a challenge for 
-
+In this project we will create a e-commerce React application from an start to finish. We will be provided with the basic file structure from create-react-app, but the App.js file is empty. We will be working on this app over the course of three days. Each day's project is divided into four Steps, with the first step being comparable to that day's mini-project and the following steps adding more features or implementing new patterns. You should expect to be able to complete the first two steps on each day, while steps three and four are optional and should be more challenging.
 
 # Day 1
 
@@ -18,7 +17,7 @@ On this day we will start building our React app. We will create a class compone
 
 # Live Example
 
-<a href=#">Click Me!</a>
+<a href="#">Click Me!</a>
 
 <img src="#" />
 
@@ -33,12 +32,12 @@ On this day we will start building our React app. We will create a class compone
 
 ### Summary
 
-In this step we will create a class component called App, with state. State should have one property, an array of products. You will need to fill this array with a list of products. Each product is represented by an object with the following properties: id (number), imageUrl (string), title (string), price (number), and description (string). The display of our App component should have a left and right side; on the left we will display the list of products. On the right will be the cart, where users can add see the items that they are going to purchase. A user should have the ability to add an item from the products list to the cart by clicking a button. If an item is clicked multiple times, simply add duplicates of that item to the cart. We will implement a quantity counter later on.
+In this step we will create a class component called App, with state. State should have one property, an array of products. You will need to fill this array with a list of products. Each product is represented by an object with the following properties: id (number), image (string), title (string), price (number), and description (string). The display of our App component should have a left and right side; on the left we will display the list of products. On the right will be the cart, where users can add see the items that they are going to purchase. A user should have the ability to add an item from the products list to the cart by clicking a button. If an item is clicked multiple times, simply add duplicates of that item to the cart. We will implement a quantity counter later on.
 
 ### Instructions
 
 - Open `src/App.js`. This file will be empty. Create a class component that is the default export.
-* Create an array on state called products and populate it with a few product objects. Each product is represented by an object with the following properties: id (number), imageUrl (string), title (string), price (number), and description (string).
+* Create an array on state called products and populate it with a few product objects. Each product is represented by an object with the following properties: id (number), image (string), title (string), price (number), and description (string).
 * Create an empty array on state called cart.
 - Create two sections in the return statement of App's render method. The first will hold the products list, the other will hold the cart list.
 - Create an h1 for each of these divs, to label them as Products and Cart respectively.
@@ -99,9 +98,10 @@ render(){
 Within the products section, map over the product data on state, in order to render the image, name, description and price into JSX. Also add an Add to Cart button.
 
 ```js
-<section className="App">
+<section className="products">
+  <h1>Products</h1>
   {this.state.products.map(item => (
-    <div>
+      <div>
       <img src={item.imageUrl} />
       <h4>{item.name}</h4>
       <p>{item.description}</p>
@@ -116,6 +116,7 @@ Now map over the cart array, to display the name, price, and description within 
 
 ```js
 <section className="cart">
+  <h1>Cart</h1>
   {this.state.cart.map(item => (
     <div>
       <h4>{item.name}</h4>
@@ -126,10 +127,10 @@ Now map over the cart array, to display the name, price, and description within 
 </section>
 ```
 
-Write a method called `addItemToCart`, that will add the item to the cart array on state. Make sure to create a deep copy of the cart array, to avoid modifying state directly.
+Write a method called `handleAddToCart`, that will add the item to the cart array on state. Make sure to create a deep copy of the cart array, to avoid modifying state directly.
 
 ```js
-addToCart(item){
+handleAddToCart(item){
     const newCart = this.state.cart.map( cartItem => Object.assign({}, cartItem) )
     newCart.push(item)
     this.setState({
@@ -150,13 +151,21 @@ Now use this method as the onclick for our Add to Cart button. Be sure to pass i
 
 ### Summary
 
-In this step we will calculate and display the total price from the cart. We will reorganize the products into categories, and store them in seperate arrays on state. E.g. `this.state = { shoes: [...], shirts: [...], hats: [...] }`, where each item on state is an array of product objects. Then display the products sorted into categories with a header for the type of product. We also want to have a checkout button on the cart side. This should clear out the cart and display an alert to inform the user that their purchase has been completed.
+In this step we will calculate and display the total price from the cart. We will reorganize the products into categories, and store them in seperate arrays on state. E.g. 
+```
+this.state = { 
+    shoes: [...], 
+    shirts: [...], 
+    hats: [...] 
+}
+```
+Each item on state is an array of product objects. Then display the products sorted into categories with a header for the type of product. We also want to have a checkout button on the cart side. This should clear out the cart and display an alert to inform the user that their purchase has been completed.
 
 ### Instructions
 
 * Change the structure of state, so that instead of a products array, there are seperate arrays for different product categories (which you can make up), e.g. shoes, shirts, pants.
 * Now map over these arrays within the products section, and create a header for each category.
-- Create a container to display the Total amount, at the bottom of the App component; this container can be a div with an 'h1' inside it and a 'p' tag
+- Create a container to display the Total amount at the bottom of the App component; this container can be a div with an 'h1' inside it and a 'p' tag
 - This container should also include the Checkout Button, which should call the checkout method, to clear out the cart and call an alert to let the user know that their purchase has been completed.
 
 <details>
@@ -247,7 +256,7 @@ checkout = () => {
 
 ### Summary
 
-In this step we will add two text input fields on the cart side of our app. These will take in an mailing address and a credit-card number from the user. We want to verify that these fields have been filled out and are not empty when the user goes to checkout. If the user attempts to checkout without filling out both of these fields, call an alert which will inform them of the error.
+In this step we will add two text input fields on the cart side of our app. These will take in a mailing address and a credit-card number from the user. We want to verify that these fields have been filled out and are not empty when the user goes to checkout. If the user attempts to checkout without filling out both of these fields, call an alert which will inform them of the error.
 
 ### Instructions
 
@@ -296,7 +305,7 @@ In this step we want to keep track of quantity if there are multiple copies of a
 
 <details><summary> Detailed Instructions </summary>
 
-Modify the addItemToCart method, so that it can keep track of quantity if their are multiple instances of an item in the cart.
+Modify the addItemToCart method, so that it can keep track of quantity if there are multiple instances of an item in the cart.
 
 ```js
 addItemToCart( item ){
