@@ -316,36 +316,77 @@ In this step we want to keep track of quantity if there are multiple copies of a
 ### Instructions
 
 1. In order to keep track of quantity, modify the addItemToCart method. When adding to the cart, it should check if the item is already on the cart, and if so, increase that object's quantity value by one.
-<details><summary> Detailed Instructions </summary>
-Modify the addItemToCart method, so that it can keep track of quantity if their are multiple instances of an item in the cart.
+    <details><summary> Detailed Instructions </summary>
+    Modify the addItemToCart method, so that it can keep track of quantity if their are multiple instances of an item in the cart.
 
-```js
-addItemToCart( item ){
-    // make a deep copy of the cart array, to avoid mutating state.
-    let newCart = this.state.cart.map( cartItem => Object.assign({}, cartItem) )
-    let itemIndex = newCart.findIndex( cartItem => cartItem.id === item.id)
-    if( itemIndex!== -1){
-      newCart[itemIndex].quantity++
-    } else {
-      item.quantity++
-      newCart.push(item)
+    ```js
+    addItemToCart( item ){
+        // make a deep copy of the cart array, to avoid mutating state.
+        let newCart = this.state.cart.map( cartItem => Object.assign({}, cartItem) )
+        let itemIndex = newCart.findIndex( cartItem => cartItem.id === item.id)
+        if( itemIndex!== -1){
+        newCart[itemIndex].quantity++
+        } else {
+        item.quantity++
+        newCart.push(item)
+        }
+        this.setState({
+        cart:newCart
+        })
     }
-    this.setState({
-      cart:newCart
-    })
-  }
-```
-</details>
+    ```
+    </details>
 
 2. Create a deleteFromCart method. This should take in one parameter, an id, which it will use to remove the matching item from the cart array.
-<details><summary> Detailed Instructions </summary>
+    <details><summary> Detailed Instructions </summary>
+    Create a deleteFromCart method that takes an id parameter and removes the matching item from the cart array.
 
-</details>
+    ```js
+    removeItemFromCart( id ){
+        let newCart = this.state.cart.map( cartItem => Object.assign({}, cartItem) )
+        let itemIndex = newCart.findIndex( cartItem => cartItem.id === id)
+        if(newCart[itemIndex].quantity === 1){
+        newCart.splice(itemIndex,1)
+        }
+        else {
+        newCart[itemIndex].quantity--
+        }
+        this.setState({
+        cart:newCart
+        })
+    }
+    ```
+    </details>
 3. Create a button at the top of the products section, and a method for it called handleToggleView. Create a boolean value on state called toggleView. The handleToggleView method should set the toggleView value on state to its opposite value. We will use this boolean to conditionally render our products. Based on the value of toggleView, we want to switch between a detailed card view and a simple list. You can do this either by writing more JSX, or simply writing two different sets of CSS and toggling classes. 
 
-<details><summary> Detailed Instructions </summary>
+    <details><summary> Detailed Instructions </summary>
 
-</details>
+    Create a Toggle View button at the top of the products section, and create a handleToggleView method which will toggle a toggleView boolean on state.
+
+    ```js
+    this.state = {
+        toggleView: true,
+        // ...
+    }
+    ```
+
+    ```js
+    <button onClick={ this.handleToggleView }>Toggle View</button>
+    ```
+
+    ```js
+    handleToggleView = () => this.setState(state => { toggleView: !state.toggleView })
+    ```
+
+    Here we will toggle the class of our product elements, to render them either in more detailed card view or list view.
+
+    ```js
+    <div className={ this.state.toggleView ? 'product_card' : 'product_list' }>
+        // ...
+    </div>
+    ```
+
+    </details>
 <!-- Modify the addItemToCart method, so that it can keep track of quantity if their are multiple instances of an item in the cart. -->
 
 <!-- ```js
@@ -365,7 +406,7 @@ addItemToCart( item ){
   }
 ``` -->
 
-Create a deleteFromCart method that takes an id parameter and removes the matching item from the cart array.
+<!-- Create a deleteFromCart method that takes an id parameter and removes the matching item from the cart array.
 
 ```js
 removeItemFromCart( id ){
@@ -406,9 +447,9 @@ Here we will toggle the class of our product elements, to render them either in 
 <div className={ this.state.toggleView ? 'product_card' : 'product_list' }>
     // ...
 </div>
-```
+``` -->
 
-</details>
+<!-- </details> -->
 
 _____________________________end of day 1_______________________________________
 
