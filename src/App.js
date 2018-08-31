@@ -115,7 +115,7 @@ class App extends Component {
                 return (
                   <tr className="product_container clearfix">
                     <td>
-                      <img className="product_img" src={item.imageUrl} />
+                      <img className="product_img" src={item.imageUrl} alt={item.name}/>
                     </td>
                     <td>
                       <h4>{item.name}</h4>
@@ -146,7 +146,7 @@ class App extends Component {
                 return (
                   <tr className="products_container clearfix">
                     <td>
-                      <img className="product_img" src={item.imageUrl} />
+                      <img className="product_img" src={item.imageUrl} alt={item.name}/>
                     </td>
                     <td>
                       <h4>{item.name}</h4>
@@ -207,7 +207,7 @@ class App extends Component {
               return (
                 <tr className="products_container clearfix">
                   <td>
-                    <img className="product_img" src={item.imageUrl} />
+                    <img className="product_img" src={item.imageUrl} alt={item.name}/>
                   </td>
                   <td>
                     <h4>{item.name}</h4>
