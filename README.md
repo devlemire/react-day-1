@@ -307,7 +307,7 @@ In this step we will add two text input fields on the cart side of our app. Thes
 
     </details>
 
-## Step 4
+## Part 4
 
 ### Summary
 
@@ -322,6 +322,7 @@ In this step we want to keep track of quantity if there are multiple copies of a
     ```js
     addItemToCart( item ){
         // make a deep copy of the cart array, to avoid mutating state.
+
         let newCart = this.state.cart.map( cartItem => Object.assign({}, cartItem) )
         let itemIndex = newCart.findIndex( cartItem => cartItem.id === item.id)
         if( itemIndex!== -1){
@@ -367,6 +368,7 @@ In this step we want to keep track of quantity if there are multiple copies of a
     this.state = {
         toggleView: true,
         // ...
+
     }
     ```
 
@@ -383,6 +385,7 @@ In this step we want to keep track of quantity if there are multiple copies of a
     ```js
     <div className={ this.state.toggleView ? 'product_card' : 'product_list' }>
         // ...
+
     </div>
     ```
 
