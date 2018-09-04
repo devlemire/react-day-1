@@ -77,7 +77,7 @@ In this step we will create a class component called App, with state. State shou
     </details>
 
 
-4. Create two sections in the return statement of App's render method. The first will hold the products list, the other will hold the cart list. Create an h1 for each of these divs, to label them as Products and Cart respectively.
+4. Create two sections in the return statement of App's render method. The first will hold the products list, the other will hold the cart list. Create an h1 for each of these sections, to label them as Products and Cart respectively.
 
     <details>
     <summary>Detailed Instructions</summary>
@@ -130,16 +130,16 @@ In this step we will create a class component called App, with state. State shou
     <section className="cart">
     {this.state.cart.map(item => (
         <div>
-        <h4>{item.name}</h4>
-        <p>{item.description}</p>
-        <p>{item.price}</p>
+            <h4>{item.name}</h4>
+            <p>{item.description}</p>
+            <p>{item.price}</p>
         </div>
     ))}
     </section>
     ```
     </details>
 
-6. Write a method on the App component called `handleAddToCart`. This will take one parameter, an object, which it will add to the cart array on state. Now we can attach this method to the onClick event listener on the Add to Cart button, and pass in the product object.
+6. Write a method on the App component called `addToCart`. This will take one parameter, an object, which it will add to the cart array on state. Now we can attach this method to the onClick event listener on the Add to Cart button, and pass in the product object.
 
 
 
@@ -315,24 +315,24 @@ In this step we want to keep track of quantity if there are multiple copies of a
 
 ### Instructions
 
-1. In order to keep track of quantity, modify the addItemToCart method. When adding to the cart, it should check if the item is already on the cart, and if so, increase that object's quantity value by one.
+1. In order to keep track of quantity, modify the addToCart method. When adding to the cart, it should check if the item is already on the cart, and if so, increase that object's quantity value by one.
     <details><summary> Detailed Instructions </summary>
     Modify the addItemToCart method, so that it can keep track of quantity if their are multiple instances of an item in the cart.
 
     ```js
-    addItemToCart( item ){
+    addToCart( item ){
         // make a deep copy of the cart array, to avoid mutating state.
 
         let newCart = this.state.cart.map( cartItem => Object.assign({}, cartItem) )
         let itemIndex = newCart.findIndex( cartItem => cartItem.id === item.id)
         if( itemIndex!== -1){
-        newCart[itemIndex].quantity++
+            newCart[itemIndex].quantity++
         } else {
-        item.quantity++
-        newCart.push(item)
+            item.quantity++
+            newCart.push(item)
         }
         this.setState({
-        cart:newCart
+            cart:newCart
         })
     }
     ```
@@ -343,116 +343,86 @@ In this step we want to keep track of quantity if there are multiple copies of a
     Create a deleteFromCart method that takes an id parameter and removes the matching item from the cart array.
 
     ```js
-    removeItemFromCart( id ){
+    deleteFromCart( id ){
         let newCart = this.state.cart.map( cartItem => Object.assign({}, cartItem) )
         let itemIndex = newCart.findIndex( cartItem => cartItem.id === id)
         if(newCart[itemIndex].quantity === 1){
-        newCart.splice(itemIndex,1)
+            newCart.splice(itemIndex,1)
         }
         else {
-        newCart[itemIndex].quantity--
+            newCart[itemIndex].quantity--
         }
         this.setState({
-        cart:newCart
+            cart:newCart
         })
     }
     ```
     </details>
-3. Create a button at the top of the products section, and a method for it called handleToggleView. Create a boolean value on state called toggleView. The handleToggleView method should set the toggleView value on state to its opposite value. We will use this boolean to conditionally render our products. Based on the value of toggleView, we want to switch between a detailed card view and a simple list. You can do this either by writing more JSX, or simply writing two different sets of CSS and toggling classes. 
+3. Create a button at the top of the products section, and a method for it called handleToggleView. 
 
     <details><summary> Detailed Instructions </summary>
 
-    Create a Toggle View button at the top of the products section, and create a handleToggleView method which will toggle a toggleView boolean on state.
+        ```js
+        <button onClick={ this.handleToggleView }>Toggle View</button>
+        ```
+        
+        ```js
+        handleToggleView(){
+            // this will toggle a value on state.
+        }
+        ```
+
+    </details>
+
+4. Create a boolean value on state called toggleView. The handleToggleView method should set the toggleView value on state to its opposite value. We will use this boolean to conditionally render our products. 
+
+    <details><summary> Detailed Instructions </summary>
 
     ```js
     this.state = {
-        toggleView: true,
-        // ...
-
+        //...
+        toggleView: true
     }
     ```
 
     ```js
-    <button onClick={ this.handleToggleView }>Toggle View</button>
+    handleToggleView(){
+        this.setState({ toggleView: !this.state.toggleView })
+    }
     ```
 
-    ```js
-    handleToggleView = () => this.setState(state => { toggleView: !state.toggleView })
-    ```
+    </details>
+
+
+5. Based on the value of toggleView, we want to switch between a detailed card view and a simple list. You can do this either by writing more JSX, or simply writing two different sets of CSS and toggling classes. 
+
+    <details><summary> Detailed Instructions </summary>
 
     Here we will toggle the class of our product elements, to render them either in more detailed card view or list view.
 
     ```js
     <div className={ this.state.toggleView ? 'product_card' : 'product_list' }>
         // ...
-
     </div>
     ```
 
+    -or-
+
+    ```js
+    {
+        this.state.toggleView ? (
+            <div>
+                // card view
+            </div>
+        ) : (
+            <div>
+                // list view
+            </div>
+        )
+    }
+    ```
+
     </details>
-<!-- Modify the addItemToCart method, so that it can keep track of quantity if their are multiple instances of an item in the cart. -->
-
-<!-- ```js
-addItemToCart( item ){
-    // make a deep copy of the cart array, to avoid mutating state.
-    let newCart = this.state.cart.map( cartItem => Object.assign({}, cartItem) )
-    let itemIndex = newCart.findIndex( cartItem => cartItem.id === item.id)
-    if( itemIndex!== -1){
-      newCart[itemIndex].quantity++
-    } else {
-      item.quantity++
-      newCart.push(item)
-    }
-    this.setState({
-      cart:newCart
-    })
-  }
-``` -->
-
-<!-- Create a deleteFromCart method that takes an id parameter and removes the matching item from the cart array.
-
-```js
-removeItemFromCart( id ){
-    let newCart = this.state.cart.map( cartItem => Object.assign({}, cartItem) )
-    let itemIndex = newCart.findIndex( cartItem => cartItem.id === id)
-    if(newCart[itemIndex].quantity === 1){
-      newCart.splice(itemIndex,1)
-    }
-    else {
-      newCart[itemIndex].quantity--
-    }
-    this.setState({
-      cart:newCart
-    })
-  }
-```
-
-Create a Toggle View button at the top of the products section, and create a handleToggleView method which will toggle a toggleView boolean on state.
-
-```js
-this.state = {
-    toggleView: true,
-    // ...
-}
-```
-
-```js
-<button onClick={ this.handleToggleView }>Toggle View</button>
-```
-
-```js
-handleToggleView = () => this.setState(state => { toggleView: !state.toggleView })
-```
-
-Here we will toggle the class of our product elements, to render them either in more detailed card view or list view.
-
-```js
-<div className={ this.state.toggleView ? 'product_card' : 'product_list' }>
-    // ...
-</div>
-``` -->
-
-<!-- </details> -->
 
 _____________________________end of day 1_______________________________________
 
