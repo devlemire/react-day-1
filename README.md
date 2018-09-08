@@ -22,13 +22,6 @@ On this day we will start building our React app. We will create a class compone
 
 <img src="#" />
 
-## Setup
-
-- `Fork` and `clone` this repository.
-- `cd` into the project directory.
-- Run `npm install`.
-- After `npm install` has finished run `npm start`.
-
 ## Part 1
 
 ### Summary
