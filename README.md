@@ -20,7 +20,7 @@ On this day we will start building our React app. We will create a class compone
 
 <a href=#">Click Me!</a>
 
-<img src="#" />
+<img src="./src/img/screenshot.png" />
 
 ## Part 1
 
