@@ -28,9 +28,7 @@ In this part, we will create a `class component` called `App` and initialize it 
 
 We will also add the functionality for a user to be able to add items to their cart. For right now, if a duplicate is added to the cart, we will just add to the duplicate to the cart. We will optimize this on a later part.
 
-### Instructions
-
-#### Step 1
+## Step 1
 
 - Open `src/App.js`.
 - Create a `class component` called `App` that is the default export.
@@ -49,7 +47,7 @@ export default class App extends Component {}
 
 </details>
 
-#### Solution
+### Solution
 
 <details>
 
@@ -64,7 +62,7 @@ export default class App extends Component {}
 
 </details>
 
-#### Step 2
+## Step 2
 
 - Open `src/App.js`.
 - Create a `constructor method` and initialize `state` as an empty `object` for now.
@@ -168,7 +166,7 @@ constructor() {
 
 </details>
 
-#### Solution
+### Solution
 
 <details>
 
@@ -213,7 +211,7 @@ export default class App extends Component {
 
 </details>
 
-#### Step 3
+## Step 3
 
 - Open `src/App.js`.
 - Create a `render method` underneath the `constructor method`.
@@ -249,7 +247,7 @@ render(){
 
 </details>
 
-#### Solution
+### Solution
 
 <details>
 
@@ -308,7 +306,7 @@ export default class App extends Component {
 
 </details>
 
-#### Step 4
+## Step 4
 
 - Open `src/App.js`.
 - In the product's `section`:
@@ -426,7 +424,7 @@ Take the time to make your UI look similar to the UI below using CSS. CSS is not
 
 <img src="readme-assets/part-1-step-4.png" />
 
-#### Step 5
+## Step 5
 
 - Open `src/App.js`.
 - Create a new `method` above the `render method` called `addToCart`.
@@ -462,7 +460,7 @@ Now that our new `method` is ready. Let's assign a new `onClick` handler for the
 
 </details>
 
-#### Solution
+### Solution
 
 <details>
 
@@ -541,7 +539,7 @@ export default class App extends Component {
 
 <img src="readme-assets/part-1-step-5.gif" />
 
-#### Step 6
+## Step 6
 
 - Open `src/App.js`.
 - In the cart's `section`:
@@ -582,7 +580,7 @@ Remember that when mapping `JSX` elements, the most parent element needs a `key`
 
 </details>
 
-#### Solution
+### Solution
 
 <details>
 
