@@ -671,92 +671,615 @@ export default class App extends Component {
 
 ### Summary
 
-In this step we will calculate and display the total price from the cart. We will reorganize the products into categories, and store them in seperate arrays on state. E.g. `this.state = { shoes: [...], shirts: [...], hats: [...] }`, where each item on state is an array of product objects. Then display the products sorted into categories with a header for the type of product. We also want to have a checkout button on the cart side. This should clear out the cart and display an alert to inform the user that their purchase has been completed.
+In this part, we will calculate and display the total price from the `products` in the `cart` on `state`. We will organize the `products` into categories and store them in seperate `arrays` on `state`. We'll then display the `products` by category with a `header` element to distinguish the different types of `products`. We'll also create a checkout `button` on the cart side that when clicked will empty out a user's `cart` on `state` and display an `alert` as a confirmation.
 
-### Instructions
+## Step 1
 
-1. Change the structure of state, so that instead of a products array, there are seperate arrays for different product categories (which you can make up), e.g. shoes, shirts, pants.
+- Open `src/App.js`.
+- Create new properties on `state` for different categories of `products`.
+  - These properties should equal an `array`.
+  - You can make up however many you would like. Some examples are:
+    - `shirts: []`.
+    - `pants: []`.
+    - `hats: []`.
+- Move your `product objects` out of the `products` property on `state` into your new categories.
+- Delete the old `products` property from `state`.
 
-   <details>
-   <summary> Detailed Instructions </summary>
+_This will break your application until we finish step 2._
 
-   Here we will create our own categories of products on state
+<details>
+<summary> Detailed Instructions </summary>
+<br />
 
-   ```js
-   this.state = {
-     cart: [],
-     hats: [
-       {
-         id: 1,
-         name: "Fisherman's Hat",
-         description:
-           "Headgear commonly used by fishermen. Increases fishing skill marginally.",
-         price: 12.99,
-         imageUrl: ""
-       },
-       {
-         id: 2,
-         name: "Metal Hat",
-         description: "Uncomfortable, but sturdy.",
-         price: 8.99,
-         imageUrl: ""
-       }
-     ],
-     beachGear: [
-       {
-         id: 3,
-         name: "Tent",
-         description: "Portable shelter.",
-         price: 32.99,
-         imageUrl: ""
-       }
-     ]
-   };
-   ```
+Let's begin by opening `src/App.js` and going to the `state object`. We're going to add new properties onto `state` that represent `product` categories. You can either make up your own or follow along. After we have made our new `categories` we can either move our existing `products` into the categories or make up brand new products. Lastly, we will delete the old `products` property.
 
-   </details>
+_This will break your application until we finish step 2._
 
-2. Now map over these arrays within the products section, and create a header for each category.
-   Once we have created these product category arrays, we will display them in sections for each category.
-   <details>
-   <summary>Detailed Instructions</summary>
-   `js <div className="products"> <h1>PRODUCTS</h1> <h2>Hats</h2> { this.state.hats.map( item => { return( <div> <img src={item.imageUrl} /> <h4>{item.name}</h4> <p>{item.descrition}</p> <p>{item.price}</p> <button onClick={()=> this.addItemToCart(item)}> Add to Cart </button> </div> ) }) } <h2>Beach Gear</h2> { // ... same as above } </div>`
-   </details>
-3. Create a container to display the Total amount, at the bottom of the App component; this container can be a div with an 'h1' inside it and a 'p' tag
+```js
+this.state = {
+  cart: [],
+  hats: [
+    {
+      id: 1,
+      title: "Fisherman's Hat",
+      description:
+        "Headgear commonly used by fishermen. Increases fishing skill marginally.",
+      price: 12.99,
+      imageUrl: "https://via.placeholder.com/150x150"
+    },
+    {
+      id: 2,
+      title: "Metal Hat",
+      description: "Uncomfortable, but sturdy.",
+      price: 8.99,
+      imageUrl: "https://via.placeholder.com/150x150"
+    }
+  ],
+  beachGear: [
+    {
+      id: 3,
+      title: "Tent",
+      description: "Portable shelter.",
+      price: 32.99,
+      imageUrl: "https://via.placeholder.com/150x150"
+    }
+  ]
+};
+```
 
-   <details>
-   <summary>Detailed Instructions</summary>
-   Here we will create the Total container. Use the Array.reduce method to sum up the total cost.
+</details>
 
-   ```js
-   <div className="total">
-     <h1>TOTAL</h1>
-     <p>
-       $
-       {this.state.cart.reduce(
-         (accumulator, current) => (accumulator += current.price),
-         0
-       )}
-     </p>
-     <button onClick={this.checkout}>Checkout</button>
-   </div>
-   ```
+### Solution
 
-   </details>
+<details>
 
-4. This container should also include the Checkout Button, which should call the checkout method, to clear out the cart and call an alert to let the user know that their purchase has been completed.
-   <details>
-   <summary>Detailed Instructions</summary>
-   checkout method on App component
-   ```js
-   checkout = () => {
-       this.setState({
-           cart: []
-       });
-       alert('Purchase is complete!');
-   }
-   ```
-   </details>
+<summary> <code> src/App.js (just the constructor method) </code> </summary>
+<br />
+
+```js
+constructor() {
+  super();
+  this.state = {
+    cart: [],
+    hats: [
+      {
+        id: 1,
+        title: "Fisherman's Hat",
+        description:
+          "Headgear commonly used by fishermen. Increases fishing skill marginally.",
+        price: 12.99,
+        imageUrl: "https://via.placeholder.com/150x150"
+      },
+      {
+        id: 2,
+        title: "Metal Hat",
+        description: "Uncomfortable, but sturdy.",
+        price: 8.99,
+        imageUrl: "https://via.placeholder.com/150x150"
+      }
+    ],
+    beachGear: [
+      {
+        id: 3,
+        title: "Tent",
+        description: "Portable shelter.",
+        price: 32.99,
+        imageUrl: "https://via.placeholder.com/150x150"
+      }
+    ]
+  };
+}
+```
+
+</details>
+
+## Step 2
+
+- Open `src/App.js`.
+- Scroll down to the `products section`:
+  - Remove the old map logic for `products`.
+  - Create a map for every category on your `state`.
+    - Just before the logic of the map. Add an `h2` element just above it for the categories name.
+  - The returned JSX should be almost the same as before:
+    - Use an `img` element for the `product`'s `imageUrl`.
+    - Use an `h4` element for the `product`'s `title`.
+    - Use a `p` element for the `product`'s `description`.
+    - Use a `p` element for the `product`'s `price`.
+- Add your own JSX/CSS to make the `product`'s information appear on the right side of the `product`'s `imageUrl`.
+  - Do this for the `products` that appear in the `cart` as well.
+
+<details>
+
+<summary> Detailed Instructions </summary>
+<br />
+
+Let's begin by opening `src/App.js` and scrolling down to the `products section` in the `render method`. We're going to remove the old mapping logic on `products array` on `state` because `products` no longer exists on `state`. Instead we are going to replace it with a map for every category on our `state`. In addition to the new maps we are going to add an `h2` element just before it to visually display what category it is.
+
+```js
+<section className="products">
+  <h1>Products</h1>
+  <h2>Hats</h2>
+  {this.state.hats.map(item => (
+    <div key={item.id} className="product">
+      <img src={item.imageUrl} />
+      <div className="product-info">
+        <h4>{item.title}</h4>
+        <p>{item.description}</p>
+        <p>{item.price}</p>
+        <button onClick={() => this.addToCart(item)}>Add to Cart</button>
+      </div>
+    </div>
+  ))}
+
+  <h2>Beach Gear</h2>
+  {this.state.beachGear.map(item => (
+    <div key={item.id} className="product">
+      <img src={item.imageUrl} />
+      <div className="product-info">
+        <h4>{item.title}</h4>
+        <p>{item.description}</p>
+        <p>{item.price}</p>
+        <button onClick={() => this.addToCart(item)}>Add to Cart</button>
+      </div>
+    </div>
+  ))}
+</section>
+```
+
+You may have noticed my `h4` and `p` elements are wrapped in a `div`. I did this to make it easier to use `CSS` to move that information to the right of the `product`'s `imageUrl`. Using the same `className` I can apply to this to every map for `products` and `cart` `section`s.
+
+```js
+<section className="cart">
+  <h1>Cart</h1>
+  {this.state.cart.map(item => (
+    <div key={item.id} className="product">
+      <img src={item.imageUrl} />
+      <div className="product-info">
+        <h4>{item.title}</h4>
+        <p>{item.description}</p>
+        <p>{item.price}</p>
+      </div>
+    </div>
+  ))}
+</section>
+```
+
+</details>
+
+### Solution
+
+<details>
+
+<summary> <code> src/App.js </code> </summary>
+<br />
+
+```js
+import React, { Component } from "react";
+import "./App.css";
+
+export default class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      cart: [],
+      hats: [
+        {
+          id: 1,
+          title: "Fisherman's Hat",
+          description:
+            "Headgear commonly used by fishermen. Increases fishing skill marginally.",
+          price: 12.99,
+          imageUrl: "https://via.placeholder.com/150x150"
+        },
+        {
+          id: 2,
+          title: "Metal Hat",
+          description: "Uncomfortable, but sturdy.",
+          price: 8.99,
+          imageUrl: "https://via.placeholder.com/150x150"
+        }
+      ],
+      beachGear: [
+        {
+          id: 3,
+          title: "Tent",
+          description: "Portable shelter.",
+          price: 32.99,
+          imageUrl: "https://via.placeholder.com/150x150"
+        }
+      ]
+    };
+  }
+
+  addToCart(item) {
+    this.setState({
+      cart: [...this.state.cart, item]
+    });
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <section className="products">
+          <h1>Products</h1>
+          <h2>Hats</h2>
+          {this.state.hats.map(item => (
+            <div key={item.id} className="product">
+              <img src={item.imageUrl} />
+              <div className="product-info">
+                <h4>{item.title}</h4>
+                <p>{item.description}</p>
+                <p>{item.price}</p>
+                <button onClick={() => this.addToCart(item)}>
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+          ))}
+
+          <h2>Beach Gear</h2>
+          {this.state.beachGear.map(item => (
+            <div key={item.id} className="product">
+              <img src={item.imageUrl} />
+              <div className="product-info">
+                <h4>{item.title}</h4>
+                <p>{item.description}</p>
+                <p>{item.price}</p>
+                <button onClick={() => this.addToCart(item)}>
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+          ))}
+        </section>
+
+        <section className="cart">
+          <h1>Cart</h1>
+          {this.state.cart.map(item => (
+            <div key={item.id} className="product">
+              <img src={item.imageUrl} />
+              <div className="product-info">
+                <h4>{item.title}</h4>
+                <p>{item.description}</p>
+                <p>{item.price}</p>
+              </div>
+            </div>
+          ))}
+        </section>
+      </div>
+    );
+  }
+}
+```
+
+</details>
+
+<img src="readme-assets/part-2-step-2.png" />
+
+## Step 3
+
+- Open `src/App.js`.
+- Scroll down to the `cart section`:
+  - Create an`h2` element to display "Total $" and then the actual total after the dollar sign.
+  - Place this `h2` under the `h1` for that says "Cart".
+
+<details>
+<summary>Detailed Instructions</summary>
+<br />
+
+Let's begin by opening `src/App.js` and scrolling down to the `cart section`. We're going to add a sub header that displays the user's current total. Underneath the `h1` element that says "Cart", let's add an `h2` element that says "Total $". After the dollar sign we want to add the actual total number.
+
+We can use a high order function known as `reduce`. `reduce` can loop through an array and preform multiple operations for every element and then return a single value. This is perfect for us to determine the `cart`'s total. A `reduce` is used by calling:
+
+```js
+Array.reduce((total, elem) => {}, initialValue);
+```
+
+We can use this example to construct a `reduce` for our case. In our case the `Array` is `this.state.cart`. I'm going to name `total` to be `totalPrice` and `elem` to be `product` since the `reduce` is looping through `products` and we are trying to determine the total price. I'm also going to set `initialValue` to be `0` since a `cart` with no `products` should cost `0` dollars.
+
+```js
+this.state.cart.reduce((totalPrice, product) => {}, 0);
+```
+
+Now we just need to tell the `reduce` what logic to execute. Since every `product` has a price and we want `totalPrice` to equal the cost of all the `products` we can say:
+
+```js
+this.state.cart.reduce(
+  (totalPrice, product) => (totalPrice += product.price),
+  0
+);
+```
+
+Now `totalPrice` will hold the value of all the `product`'s `price`s added together. Using this logic we can add it to the DOM using:
+
+```js
+<h2>
+  Total: $
+  {this.state.cart.reduce(
+    (totalPrice, product) => (totalPrice += product.price),
+    0
+  )}
+</h2>
+```
+
+</details>
+
+### Solution
+
+<details>
+
+<summary> <code> src/App.js </code> </summary>
+<br />
+
+```js
+import React, { Component } from "react";
+import "./App.css";
+
+export default class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      cart: [],
+      hats: [
+        {
+          id: 1,
+          title: "Fisherman's Hat",
+          description:
+            "Headgear commonly used by fishermen. Increases fishing skill marginally.",
+          price: 12.99,
+          imageUrl: "https://via.placeholder.com/150x150"
+        },
+        {
+          id: 2,
+          title: "Metal Hat",
+          description: "Uncomfortable, but sturdy.",
+          price: 8.99,
+          imageUrl: "https://via.placeholder.com/150x150"
+        }
+      ],
+      beachGear: [
+        {
+          id: 3,
+          title: "Tent",
+          description: "Portable shelter.",
+          price: 32.99,
+          imageUrl: "https://via.placeholder.com/150x150"
+        }
+      ]
+    };
+  }
+
+  addToCart(item) {
+    this.setState({
+      cart: [...this.state.cart, item]
+    });
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <section className="products">
+          <h1>Products</h1>
+          <h2>Hats</h2>
+          {this.state.hats.map(item => (
+            <div key={item.id} className="product">
+              <img src={item.imageUrl} />
+              <div className="product-info">
+                <h4>{item.title}</h4>
+                <p>{item.description}</p>
+                <p>{item.price}</p>
+                <button onClick={() => this.addToCart(item)}>
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+          ))}
+
+          <h2>Beach Gear</h2>
+          {this.state.beachGear.map(item => (
+            <div key={item.id} className="product">
+              <img src={item.imageUrl} />
+              <div className="product-info">
+                <h4>{item.title}</h4>
+                <p>{item.description}</p>
+                <p>{item.price}</p>
+                <button onClick={() => this.addToCart(item)}>
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+          ))}
+        </section>
+
+        <section className="cart">
+          <h1>Cart</h1>
+          <h2>
+            Total: $
+            {this.state.cart.reduce(
+              (totalPrice, product) => (totalPrice += product.price),
+              0
+            )}
+          </h2>
+          {this.state.cart.map(item => (
+            <div key={item.id} className="product">
+              <img src={item.imageUrl} />
+              <div className="product-info">
+                <h4>{item.title}</h4>
+                <p>{item.description}</p>
+                <p>{item.price}</p>
+              </div>
+            </div>
+          ))}
+        </section>
+      </div>
+    );
+  }
+}
+```
+
+</details>
+
+<img src="readme-assets/part-2-step-3.png" />
+
+## Step 4
+
+- Open `src/App.js`.
+- Scroll down to the `cart section`:
+  - Create a new button that says "Checkout".
+    - Add this button underneath the `h2` element.
+    - Add an `onClick` handler that calls a `method` called `checkout`.
+- Scroll above the `render method`:
+  - Create a new `method` called `checkout`.
+    - This `method` should empty the cart.
+    - This `method` should display an alert that says "Purchase is complete!".
+
+<details>
+
+<summary> Detailed Instructions </summary>
+<br />
+
+Let's begin by opening `src/App.js` and scrolling down to the `cart section`. Underneath the `h2` element we are going to create a new `button` element that says "Checkout" and uses an `onClick` handler that calls a new `checkout method`.
+
+```js
+<button onClick={this.checkout}>Checkout</button>
+```
+
+Now we need to actually make the `checkout method`. Let's scroll above the render method and add it. This method will need the correct context of `this` so we can update `cart` to an empty `array`. There are three ways to accomplish this. You could modify the `onClick` handler to use an `arrow function`. You could use `this.checkout = this.checkout.bind(this)` in the constructor method. Or you could make the method an `arrow function`. I'm going to make the method an `arrow function`.
+
+Remember the method needs to set `cart` to an empty `array` and also call an `alert` with "Purchase is complete!".
+
+```js
+checkout = () => {
+  this.setState({ cart: [] });
+  alert("Purchase is complete!");
+};
+```
+
+</details>
+
+### Solution
+
+<details>
+
+<summary> <code> src/App.js </code> </summary>
+<br />
+
+```js
+import React, { Component } from "react";
+import "./App.css";
+
+export default class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      cart: [],
+      hats: [
+        {
+          id: 1,
+          title: "Fisherman's Hat",
+          description:
+            "Headgear commonly used by fishermen. Increases fishing skill marginally.",
+          price: 12.99,
+          imageUrl: "https://via.placeholder.com/150x150"
+        },
+        {
+          id: 2,
+          title: "Metal Hat",
+          description: "Uncomfortable, but sturdy.",
+          price: 8.99,
+          imageUrl: "https://via.placeholder.com/150x150"
+        }
+      ],
+      beachGear: [
+        {
+          id: 3,
+          title: "Tent",
+          description: "Portable shelter.",
+          price: 32.99,
+          imageUrl: "https://via.placeholder.com/150x150"
+        }
+      ]
+    };
+  }
+
+  addToCart(item) {
+    this.setState({
+      cart: [...this.state.cart, item]
+    });
+  }
+
+  checkout = () => {
+    this.setState({ cart: [] });
+    alert("Purchase is complete!");
+  };
+
+  render() {
+    return (
+      <div className="App">
+        <section className="products">
+          <h1>Products</h1>
+          <h2>Hats</h2>
+          {this.state.hats.map(item => (
+            <div key={item.id} className="product">
+              <img src={item.imageUrl} />
+              <div className="product-info">
+                <h4>{item.title}</h4>
+                <p>{item.description}</p>
+                <p>{item.price}</p>
+                <button onClick={() => this.addToCart(item)}>
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+          ))}
+
+          <h2>Beach Gear</h2>
+          {this.state.beachGear.map(item => (
+            <div key={item.id} className="product">
+              <img src={item.imageUrl} />
+              <div className="product-info">
+                <h4>{item.title}</h4>
+                <p>{item.description}</p>
+                <p>{item.price}</p>
+                <button onClick={() => this.addToCart(item)}>
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+          ))}
+        </section>
+
+        <section className="cart">
+          <h1>Cart</h1>
+          <h2>
+            Total: $
+            {this.state.cart.reduce(
+              (totalPrice, product) => (totalPrice += product.price),
+              0
+            )}
+          </h2>
+          <button onClick={this.checkout}>Checkout</button>
+          {this.state.cart.map(item => (
+            <div key={item.id} className="product">
+              <img src={item.imageUrl} />
+              <div className="product-info">
+                <h4>{item.title}</h4>
+                <p>{item.description}</p>
+                <p>{item.price}</p>
+              </div>
+            </div>
+          ))}
+        </section>
+      </div>
+    );
+  }
+}
+```
+
+</details>
+
+<br />
+<img src="readme-assets/part-2-step-4.gif" />
 
 ## Part 3
 
